@@ -32,8 +32,7 @@ export default class SwapiService {
   }
   
    async getPerson (id) {
-     const person = this.getResource(`/people/${id}/`);
-  
+     const person = await this.getResource(`/people/${id}/`);
      return this._transformPerson(person);
    }
   
@@ -50,9 +49,8 @@ export default class SwapiService {
    }
 
    _extractid(item) {
-    const idregExp = /\/([0-9]*)\/$/;
-  
-    return item.url.match(idregExp)[1];
+    const idRegExp = /\/([0-9]*)\/$/;
+    return item.url.match(idRegExp)[1];
    }
 
    _transformPlanet = (planet) => {
@@ -87,8 +85,8 @@ export default class SwapiService {
        id: this._extractid(person),
        name: person.name,
        gender: person.gender,
-       birthYear: person.birthYear,
-       eyeColor: person.eyeColor
+       birthYear: person.birth_year,
+       eyeColor: person.eye_color
      };
    };
 };
