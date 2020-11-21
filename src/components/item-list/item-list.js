@@ -6,18 +6,18 @@ import './item-list.css'
 
 export default class ItemList extends Component {
 
-    swapiService = new SwapiService();
-
     state = { 
-        peopleList: null
+        ItemList: null
     };
 
     componentDidMount () {
-        this.swapiService
-        .getAllPeople()
-        .then((peopleList)=> {
+       
+        const { getData } = this.props;
+
+        getData()
+        .then((ItemList)=> {
             this.setState ({
-                peopleList: peopleList,
+                ItemList,
             });
         });
     };
