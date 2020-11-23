@@ -10,6 +10,21 @@ import PersonDetails from '../person-details';
 import './app.css';
 import SwapiService from '../../services/swapi';
 
+const Row = ({left,right}) => {
+    return (
+        <div className="row mb2">
+                  <div className="col-md-6">
+                   {left}
+                  </div>
+
+                  <div className="col-md-6">
+                   {right}
+                  </div>
+                </div>
+    );
+
+};
+
 export default class App extends React.Component {
 
     swapiService = new SwapiService();
@@ -28,6 +43,21 @@ export default class App extends React.Component {
         if (this.state.hasError) {
             return <ErrorIndicator />
         }
+
+        const itemList = (
+                 <ItemList onItemSelected={this.onPersonSelected} 
+                    getData={this.swapiService.getAllPlanets}
+                    renderItem={({ name, diameter }) => `${name}, ${diameter}`}/>
+        );
+
+ 
+        const personDetails = (
+            <div className="col-md-6">
+              <PersonDetails personId={this.state.selectedPerson}
+               />
+            </div>
+        )
+
         return (
             <div>
                 <Header />
@@ -36,8 +66,19 @@ export default class App extends React.Component {
                   
                 <div className="row mb2">
                   <div className="col-md-6">
+                   {itemList}
+                  </div>
+
+                  <div className="col-md-6">
+                   {personDetails}
+                  </div>
+                </div>
+
+                <div className="row mb2">
+                  <div className="col-md-6">
                     <ItemList onItemSelected={this.onPersonSelected} 
-                    getData={this.swapiService.getAllPlanets}/>
+                    getData={this.swapiService.getAllStarships}
+                    renderItem={({ name, model }) => `${name}, ${model}`}/>
                   </div>
                 </div>
 

@@ -15,21 +15,24 @@ export default class ItemList extends Component {
         const { getData } = this.props;
 
         getData()
-        .then((ItemList)=> {
+        .then((ItemList) => {
             this.setState ({
                 ItemList,
             });
         });
     };
 
+
     renderItems (arr) {
 
-        return arr.map(({ name, id }) => {
+        return arr.map((item) => {
+            const { id } = item;
+            const label = this.props.renderItem(item);
             return (
             <li className="list-group-item"
                  key={id}
                  onClick={() => this.props.onItemSelected(id)}>
-                {name}
+                {label}
             </li>
             )
         });
@@ -38,13 +41,14 @@ export default class ItemList extends Component {
 
     render() {
 
-        const { peopleList } = this.state;
+
+        const { ItemList } = this.state;
        
-        if( !peopleList ) {
+        if( !ItemList ) {
             return <Spinner />;
         }
 
-        const items = this.renderItems(peopleList)
+        const items = this.renderItems(ItemList)
     
         return (
             <ul className="list-group item-list">
