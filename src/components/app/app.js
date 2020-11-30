@@ -6,6 +6,7 @@ import SwapiService from '../../services/swapi';
 import ErrorBoundry from '../error-bondry';
 import Row from '../row';
 import ItemDetails,{ Record } from '../item-details/item-details';
+import ItemList from '../item-list';
 
 export default class App extends React.Component {
 
@@ -18,7 +19,8 @@ export default class App extends React.Component {
                getStarshipImage, 
                getPersonImage,
                getPlanet,
-               getPlanetImage} = this.swapiService
+               getPlanetImage,
+               getAllPeople} = this.swapiService
 
         const personDetails = (
         <ItemDetails itemId={11} 
@@ -33,15 +35,27 @@ export default class App extends React.Component {
         );
 
         const starshipDetails = (
-        <ItemDetails itemId={2} 
-        getData={getPlanet}
-        getImageUrl={getPlanetImage}/>
+        <ItemDetails itemId={5} 
+        getData={getStarship}
+        getImageUrl={getStarshipImage}>
+        
+        <Record field ="model" label="Model" />
+        <Record field="length" label ="Length" />
+        <Record field="costInCredits" label ="Cost" />
+        </ItemDetails>
         );
         
         return (
         <ErrorBoundry>
             <div>
                 <Header />
+                <ItemList
+                 getData={getAllPeople}
+                 onItemSelected={() => {}}>
+
+                 { ({name}) => <span>{name}</span> }
+               </ItemList>
+                
                 <Row
                   left={personDetails}
                   right={starshipDetails} 

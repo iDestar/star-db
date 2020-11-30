@@ -1,54 +1,24 @@
-import React, {Component} from 'react';
+import React  from 'react';
 import SwapiService from '../../services/swapi';
-import Spinner from '../spinner'
-
+import  withData  from '../hoc-helper/with-data'
 import './item-list.css'
 
-export default class ItemList extends Component {
+const ItemList = (props) => {
 
-    state = { 
-        ItemList: null
-    };
-
-    componentDidMount () {
-       
-        const { getData } = this.props;
-
-        getData()
-        .then((ItemList) => {
-            this.setState ({
-                ItemList,
-            });
-        });
-    };
-
-
-    renderItems (arr) {
-
-        return arr.map((item) => {
+        
+        const { data, onItemSelected, children: renderLabel } = props;
+        
+        const items = data.map((item) => {
             const { id } = item;
-            const label = this.props.children(item);
+            const label = renderLabel(item);
             return (
             <li className="list-group-item"
                  key={id}
-                 onClick={() => this.props.onItemSelected(id)}>
+                 onClick={() => onItemSelected(id)}>
                 {label}
             </li>
             )
         });
-    };
- 
-
-    render() {
-
-
-        const { ItemList } = this.state;
-       
-        if( !ItemList ) {
-            return <Spinner />;
-        }
-
-        const items = this.renderItems(ItemList)
     
         return (
             <ul className="list-group item-list">
@@ -56,4 +26,10 @@ export default class ItemList extends Component {
             </ul>
         )
     }
-}
+
+
+
+
+const { getAllPeople } = new SwapiService();
+
+export default withData(ItemList, getAllPeople);
